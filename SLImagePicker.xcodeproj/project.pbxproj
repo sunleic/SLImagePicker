@@ -101,6 +101,7 @@
 		71CD9C431CD89C5C005B8A1E /* SLImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				71CD9C771CD89D82005B8A1E /* SLImagePicker */,
 				71CD9C471CD89C5C005B8A1E /* AppDelegate.h */,
 				71CD9C481CD89C5C005B8A1E /* AppDelegate.m */,
 				71CD9C4A1CD89C5C005B8A1E /* ViewController.h */,
@@ -138,6 +139,13 @@
 				71CD9C6B1CD89C5C005B8A1E /* Info.plist */,
 			);
 			path = SLImagePickerUITests;
+			sourceTree = "<group>";
+		};
+		71CD9C771CD89D82005B8A1E /* SLImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SLImagePicker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,6 +215,7 @@
 				TargetAttributes = {
 					71CD9C401CD89C5C005B8A1E = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 329ZYF9D22;
 					};
 					71CD9C591CD89C5C005B8A1E = {
 						CreatedOnToolsVersion = 7.3;
@@ -415,10 +424,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SLImagePicker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunlei.SLImagePicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -426,10 +439,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SLImagePicker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunlei.SLImagePicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
