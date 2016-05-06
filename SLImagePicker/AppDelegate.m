@@ -19,15 +19,26 @@
     // Override point for customization after application launch.
     
 //    //设置状态栏为白色
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-//    //设置title的属性
-//    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor],NSFontAttributeName:[UIFont systemFontOfSize:16]}];
-//    //设置导航条的背景
-//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"back"] forBarMetrics:UIBarMetricsDefault];
-//    //设置导航条所有字体的颜色。包括title
-//    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    //设置title的属性
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor],NSFontAttributeName:[UIFont systemFontOfSize:16]}];
+    //设置导航条的背景
+    [[UINavigationBar appearance] setBackgroundImage:[self imageWithColor:[UIColor colorWithRed:105/255.0 green:189/255.0 blue:0 alpha:1]] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     return YES;
+}
+
+- (UIImage *)imageWithColor:(UIColor*)color
+{
+    CGRect rect=CGRectMake(0,0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

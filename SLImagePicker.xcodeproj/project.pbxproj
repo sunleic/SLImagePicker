@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71979E691CDC96A000C890F6 /* AddImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71979E681CDC96A000C890F6 /* AddImageView.m */; };
+		71979E6B1CDC9DBD00C890F6 /* addPicBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 71979E6A1CDC9DBC00C890F6 /* addPicBtn.png */; };
 		71CD9C461CD89C5C005B8A1E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C451CD89C5C005B8A1E /* main.m */; };
 		71CD9C491CD89C5C005B8A1E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C481CD89C5C005B8A1E /* AppDelegate.m */; };
 		71CD9C4C1CD89C5C005B8A1E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C4B1CD89C5C005B8A1E /* ViewController.m */; };
@@ -15,6 +17,25 @@
 		71CD9C541CD89C5C005B8A1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C521CD89C5C005B8A1E /* LaunchScreen.storyboard */; };
 		71CD9C5F1CD89C5C005B8A1E /* SLImagePickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C5E1CD89C5C005B8A1E /* SLImagePickerTests.m */; };
 		71CD9C6A1CD89C5C005B8A1E /* SLImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C691CD89C5C005B8A1E /* SLImagePickerUITests.m */; };
+		71CD9C791CD9A4FE005B8A1E /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CD9C781CD9A4FE005B8A1E /* Photos.framework */; };
+		71CD9C7C1CD9D488005B8A1E /* SLSelectImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C7B1CD9D488005B8A1E /* SLSelectImageViewController.m */; };
+		71CD9C911CD9EE0F005B8A1E /* btn_circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C831CD9EE0F005B8A1E /* btn_circle@2x.png */; };
+		71CD9C921CD9EE0F005B8A1E /* btn_circle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C841CD9EE0F005B8A1E /* btn_circle@3x.png */; };
+		71CD9C931CD9EE0F005B8A1E /* btn_original_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C851CD9EE0F005B8A1E /* btn_original_circle.png */; };
+		71CD9C941CD9EE0F005B8A1E /* btn_original_circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C861CD9EE0F005B8A1E /* btn_original_circle@2x.png */; };
+		71CD9C951CD9EE0F005B8A1E /* btn_original_circle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C871CD9EE0F005B8A1E /* btn_original_circle@3x.png */; };
+		71CD9C961CD9EE0F005B8A1E /* btn_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C881CD9EE0F005B8A1E /* btn_selected.png */; };
+		71CD9C971CD9EE0F005B8A1E /* btn_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C891CD9EE0F005B8A1E /* btn_selected@2x.png */; };
+		71CD9C981CD9EE0F005B8A1E /* btn_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C8A1CD9EE0F005B8A1E /* btn_selected@3x.png */; };
+		71CD9C991CD9EE0F005B8A1E /* btn_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C8B1CD9EE0F005B8A1E /* btn_unselected.png */; };
+		71CD9C9A1CD9EE0F005B8A1E /* btn_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C8C1CD9EE0F005B8A1E /* btn_unselected@2x.png */; };
+		71CD9C9B1CD9EE0F005B8A1E /* btn_unselected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C8D1CD9EE0F005B8A1E /* btn_unselected@3x.png */; };
+		71CD9C9C1CD9EE0F005B8A1E /* defaultphoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C8E1CD9EE0F005B8A1E /* defaultphoto.png */; };
+		71CD9C9D1CD9EE0F005B8A1E /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C8F1CD9EE0F005B8A1E /* lock.png */; };
+		71CD9C9E1CD9EE0F005B8A1E /* navBackBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C901CD9EE0F005B8A1E /* navBackBtn@2x.png */; };
+		71CD9CA41CD9F2E7005B8A1E /* SLCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9CA21CD9F2E7005B8A1E /* SLCollectionViewCell.m */; };
+		71CD9CA51CD9F2E7005B8A1E /* SLCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9CA31CD9F2E7005B8A1E /* SLCollectionViewCell.xib */; };
+		71CD9CA71CDB2475005B8A1E /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CD9CA61CDB2475005B8A1E /* AssetsLibrary.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +56,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		71979E671CDC96A000C890F6 /* AddImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddImageView.h; sourceTree = "<group>"; };
+		71979E681CDC96A000C890F6 /* AddImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddImageView.m; sourceTree = "<group>"; };
+		71979E6A1CDC9DBC00C890F6 /* addPicBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addPicBtn.png; sourceTree = "<group>"; };
 		71CD9C411CD89C5C005B8A1E /* SLImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SLImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71CD9C451CD89C5C005B8A1E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		71CD9C471CD89C5C005B8A1E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -51,6 +75,27 @@
 		71CD9C651CD89C5C005B8A1E /* SLImagePickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SLImagePickerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		71CD9C691CD89C5C005B8A1E /* SLImagePickerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLImagePickerUITests.m; sourceTree = "<group>"; };
 		71CD9C6B1CD89C5C005B8A1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71CD9C781CD9A4FE005B8A1E /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		71CD9C7A1CD9D488005B8A1E /* SLSelectImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLSelectImageViewController.h; sourceTree = "<group>"; };
+		71CD9C7B1CD9D488005B8A1E /* SLSelectImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLSelectImageViewController.m; sourceTree = "<group>"; };
+		71CD9C831CD9EE0F005B8A1E /* btn_circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_circle@2x.png"; sourceTree = "<group>"; };
+		71CD9C841CD9EE0F005B8A1E /* btn_circle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_circle@3x.png"; sourceTree = "<group>"; };
+		71CD9C851CD9EE0F005B8A1E /* btn_original_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_original_circle.png; sourceTree = "<group>"; };
+		71CD9C861CD9EE0F005B8A1E /* btn_original_circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_original_circle@2x.png"; sourceTree = "<group>"; };
+		71CD9C871CD9EE0F005B8A1E /* btn_original_circle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_original_circle@3x.png"; sourceTree = "<group>"; };
+		71CD9C881CD9EE0F005B8A1E /* btn_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_selected.png; sourceTree = "<group>"; };
+		71CD9C891CD9EE0F005B8A1E /* btn_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_selected@2x.png"; sourceTree = "<group>"; };
+		71CD9C8A1CD9EE0F005B8A1E /* btn_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_selected@3x.png"; sourceTree = "<group>"; };
+		71CD9C8B1CD9EE0F005B8A1E /* btn_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_unselected.png; sourceTree = "<group>"; };
+		71CD9C8C1CD9EE0F005B8A1E /* btn_unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_unselected@2x.png"; sourceTree = "<group>"; };
+		71CD9C8D1CD9EE0F005B8A1E /* btn_unselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_unselected@3x.png"; sourceTree = "<group>"; };
+		71CD9C8E1CD9EE0F005B8A1E /* defaultphoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultphoto.png; sourceTree = "<group>"; };
+		71CD9C8F1CD9EE0F005B8A1E /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
+		71CD9C901CD9EE0F005B8A1E /* navBackBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBackBtn@2x.png"; sourceTree = "<group>"; };
+		71CD9CA11CD9F2E7005B8A1E /* SLCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCollectionViewCell.h; sourceTree = "<group>"; };
+		71CD9CA21CD9F2E7005B8A1E /* SLCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCollectionViewCell.m; sourceTree = "<group>"; };
+		71CD9CA31CD9F2E7005B8A1E /* SLCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SLCollectionViewCell.xib; sourceTree = "<group>"; };
+		71CD9CA61CDB2475005B8A1E /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +103,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71CD9CA71CDB2475005B8A1E /* AssetsLibrary.framework in Frameworks */,
+				71CD9C791CD9A4FE005B8A1E /* Photos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +128,8 @@
 		71CD9C381CD89C5C005B8A1E = {
 			isa = PBXGroup;
 			children = (
+				71CD9CA61CDB2475005B8A1E /* AssetsLibrary.framework */,
+				71CD9C781CD9A4FE005B8A1E /* Photos.framework */,
 				71CD9C431CD89C5C005B8A1E /* SLImagePicker */,
 				71CD9C5D1CD89C5C005B8A1E /* SLImagePickerTests */,
 				71CD9C681CD89C5C005B8A1E /* SLImagePickerUITests */,
@@ -144,8 +193,46 @@
 		71CD9C771CD89D82005B8A1E /* SLImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				71CD9CA01CD9F2DA005B8A1E /* View */,
+				71CD9C821CD9EE0F005B8A1E /* Images */,
+				71CD9C7A1CD9D488005B8A1E /* SLSelectImageViewController.h */,
+				71CD9C7B1CD9D488005B8A1E /* SLSelectImageViewController.m */,
+				71979E671CDC96A000C890F6 /* AddImageView.h */,
+				71979E681CDC96A000C890F6 /* AddImageView.m */,
 			);
 			path = SLImagePicker;
+			sourceTree = "<group>";
+		};
+		71CD9C821CD9EE0F005B8A1E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				71979E6A1CDC9DBC00C890F6 /* addPicBtn.png */,
+				71CD9C831CD9EE0F005B8A1E /* btn_circle@2x.png */,
+				71CD9C841CD9EE0F005B8A1E /* btn_circle@3x.png */,
+				71CD9C851CD9EE0F005B8A1E /* btn_original_circle.png */,
+				71CD9C861CD9EE0F005B8A1E /* btn_original_circle@2x.png */,
+				71CD9C871CD9EE0F005B8A1E /* btn_original_circle@3x.png */,
+				71CD9C881CD9EE0F005B8A1E /* btn_selected.png */,
+				71CD9C891CD9EE0F005B8A1E /* btn_selected@2x.png */,
+				71CD9C8A1CD9EE0F005B8A1E /* btn_selected@3x.png */,
+				71CD9C8B1CD9EE0F005B8A1E /* btn_unselected.png */,
+				71CD9C8C1CD9EE0F005B8A1E /* btn_unselected@2x.png */,
+				71CD9C8D1CD9EE0F005B8A1E /* btn_unselected@3x.png */,
+				71CD9C8E1CD9EE0F005B8A1E /* defaultphoto.png */,
+				71CD9C8F1CD9EE0F005B8A1E /* lock.png */,
+				71CD9C901CD9EE0F005B8A1E /* navBackBtn@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		71CD9CA01CD9F2DA005B8A1E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				71CD9CA11CD9F2E7005B8A1E /* SLCollectionViewCell.h */,
+				71CD9CA21CD9F2E7005B8A1E /* SLCollectionViewCell.m */,
+				71CD9CA31CD9F2E7005B8A1E /* SLCollectionViewCell.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,9 +339,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71CD9C941CD9EE0F005B8A1E /* btn_original_circle@2x.png in Resources */,
 				71CD9C541CD89C5C005B8A1E /* LaunchScreen.storyboard in Resources */,
+				71CD9C9D1CD9EE0F005B8A1E /* lock.png in Resources */,
+				71CD9C9C1CD9EE0F005B8A1E /* defaultphoto.png in Resources */,
+				71CD9C911CD9EE0F005B8A1E /* btn_circle@2x.png in Resources */,
+				71979E6B1CDC9DBD00C890F6 /* addPicBtn.png in Resources */,
+				71CD9C9A1CD9EE0F005B8A1E /* btn_unselected@2x.png in Resources */,
+				71CD9C921CD9EE0F005B8A1E /* btn_circle@3x.png in Resources */,
+				71CD9C991CD9EE0F005B8A1E /* btn_unselected.png in Resources */,
+				71CD9C931CD9EE0F005B8A1E /* btn_original_circle.png in Resources */,
+				71CD9C9B1CD9EE0F005B8A1E /* btn_unselected@3x.png in Resources */,
+				71CD9C981CD9EE0F005B8A1E /* btn_selected@3x.png in Resources */,
+				71CD9C961CD9EE0F005B8A1E /* btn_selected.png in Resources */,
+				71CD9C9E1CD9EE0F005B8A1E /* navBackBtn@2x.png in Resources */,
+				71CD9CA51CD9F2E7005B8A1E /* SLCollectionViewCell.xib in Resources */,
 				71CD9C511CD89C5C005B8A1E /* Assets.xcassets in Resources */,
+				71CD9C971CD9EE0F005B8A1E /* btn_selected@2x.png in Resources */,
 				71CD9C4F1CD89C5C005B8A1E /* Main.storyboard in Resources */,
+				71CD9C951CD9EE0F005B8A1E /* btn_original_circle@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +383,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				71CD9C4C1CD89C5C005B8A1E /* ViewController.m in Sources */,
+				71CD9C7C1CD9D488005B8A1E /* SLSelectImageViewController.m in Sources */,
+				71979E691CDC96A000C890F6 /* AddImageView.m in Sources */,
 				71CD9C491CD89C5C005B8A1E /* AppDelegate.m in Sources */,
+				71CD9CA41CD9F2E7005B8A1E /* SLCollectionViewCell.m in Sources */,
 				71CD9C461CD89C5C005B8A1E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,7 +533,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SLImagePicker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunlei.SLImagePicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -442,7 +548,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SLImagePicker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunlei.SLImagePicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -515,6 +621,7 @@
 				71CD9C701CD89C5C005B8A1E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		71CD9C711CD89C5C005B8A1E /* Build configuration list for PBXNativeTarget "SLImagePickerTests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +630,7 @@
 				71CD9C731CD89C5C005B8A1E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		71CD9C741CD89C5C005B8A1E /* Build configuration list for PBXNativeTarget "SLImagePickerUITests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +639,7 @@
 				71CD9C761CD89C5C005B8A1E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

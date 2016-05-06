@@ -7,6 +7,10 @@
 //
 
 #import "ViewController.h"
+#import "SLSelectImageViewController.h"
+#import <Photos/Photos.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "AddImageView.h"
 
 typedef NS_ENUM(NSInteger,SLFecthcPictureType) {
 
@@ -36,6 +40,10 @@ typedef NS_ENUM(NSInteger,SLFecthcPictureType) {
     
     
     [self.view addSubview:button];
+    
+    AddImageView *addimgView = [[AddImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) targetViewController:self];
+    
+    [self.view addSubview:addimgView];
     
 }
 
@@ -67,90 +75,30 @@ typedef NS_ENUM(NSInteger,SLFecthcPictureType) {
 #pragma mark -获取相册
 -(void)fetchImageWithType:(SLFecthcPictureType)fecthcPictureType{
     
-    self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.delegate = self;
-    //允许进入相册后对相片的后续操作，不然只能进入相册，不能对相片进行操作而返回
-    imagePicker.allowsEditing = YES;
-    
-    switch (fecthcPictureType) {
-        case SLFecthcPictureTypePhotos:
-        {
-            imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            [self presentViewController:imagePicker animated:YES completion:nil];
-        }
-            break;
-            
-        case SLFecthcPictureTypeCamera:
-        {
-            
-            if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                NSArray *temp_MediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
-                imagePicker.mediaTypes = temp_MediaTypes;
-                [self presentViewController:imagePicker animated:YES completion:nil];
-            }else{
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"失败" message:@"调取相机失败" preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                [alert addAction:ok];
-                [self presentViewController:alert animated:YES completion:nil];
-            }
-            
-        }
-            break;
-            
-        default:
-            break;
-    }
-    
-}
-
-#pragma mark -相册，相机的相关代理方法
-//点击相册具体相片下方的choose按钮调用
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    
-    if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {//NSLog(@"相册的choose按钮被点击了");
-        //设置图片可以编辑
-        //info 存储图片的所有信息 , 获取编辑后的图片
-        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        //将被选择的图片大小做下修改
-        //UIImage *newImage = [[ImageTool shareTool]resizeImageToSize:CGSizeMake(50, 50) sizeOfImage:image];
+    ////判断授权状态
+    NSString *tipTextWhenNoPhotosAuthorization; // 提示语
+    // 获取当前应用对照片的访问授权状态
+    ALAuthorizationStatus authorizationStatus = [ALAssetsLibrary authorizationStatus];
+    // 如果没有获取访问授权，或者访问授权状态已经被明确禁止，则显示提示语，引导用户开启授权
+    if (authorizationStatus == ALAuthorizationStatusRestricted || authorizationStatus == ALAuthorizationStatusDenied) {
+        NSDictionary *mainInfoDictionary = [[NSBundle mainBundle] infoDictionary];
+        NSString *appName = [mainInfoDictionary objectForKey:@"CFBundleDisplayName"];
+        tipTextWhenNoPhotosAuthorization = [NSString stringWithFormat:@"请在设备的\"设置-隐私-照片\"选项中，允许%@访问你的手机相册", appName];
+        // 展示提示语
         
-//        [_addPicArr addObject:image];
-//        [_collectionView reloadData];
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:tipTextWhenNoPhotosAuthorization preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
         
-    }else if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
-        //NSLog(@"相机右下角的使用照片按钮被点击了");
-        NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-        if ([mediaType isEqualToString:@"public.image"]){  //存储由照相机获取的图片
-            
-            UIImage *newImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-            //将照片保存到相册
-            [self saveImage:newImage];
-//            //插入说说照片
-//            [_addPicArr addObject:newImage];
-//            [_collectionView reloadData];
-            
-        }
+        [alertVC addAction:ok];
+        
+        [self presentViewController:alertVC animated:YES completion:nil];
+        
+        return;
     }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
-
-//点击相册导航条右侧的取消按钮或者相机的左下角取消按钮调用
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    NSLog(@"Cancel钮被点击了");
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
-- (void)saveImage:(UIImage *)image{
-    
-    UIImageWriteToSavedPhotosAlbum(image, self, nil, NULL);
-}
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
