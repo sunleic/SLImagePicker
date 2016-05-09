@@ -38,16 +38,13 @@
 
 @implementation SLSelectImageViewController
 
-#warning 日了狗了，没有被调用
+#warning 日了狗了，没有被调用(原因竟是使用了defaultSelectImageVC方法)
 -(void)dealloc{
     
-    NSLog(@"%s",__func__);
+//    NSLog(@"*******%s",__func__);
 
-    self.collectionView = nil;
-    self.arrayImageAssets = nil;
-    self.arraySelectedImageAssets = nil;
-    self.seletedArrBlock = nil;
-    self.assetsLibrary = nil;
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
 }
 
 - (void)viewDidLoad {
@@ -62,7 +59,6 @@
     }
     
     UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
-//    rightBtn.backgroundColor = [UIColor redColor];
     [rightBtn setTitle:@"取消" forState:UIControlStateNormal];
     [rightBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0.1)];
     rightBtn.titleLabel.font = [UIFont systemFontOfSize:15];
@@ -81,6 +77,28 @@
 
 #pragma mark -获取相册的所有图片
 - (void)fetchImagesFromLibrary{
+  
+    //做相册授权判断
+    ALAuthorizationStatus authorizationStatus = [ALAssetsLibrary authorizationStatus];
+    if (authorizationStatus == ALAuthorizationStatusRestricted || authorizationStatus == ALAuthorizationStatusDenied) {
+        
+        NSString *displayName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+        
+        NSString *tips = [NSString stringWithFormat:@"请在设备的\"设置-隐私-照片\"选项中，允许%@访问你的手机相册",displayName];
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:tips preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //可以跳转到设置
+            //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@""]];
+        
+        }];
+        
+        [alertVC addAction:cancel];
+        [self presentViewController:alertVC animated:YES completion:nil];
+        
+        return;
+    }
+    
     
     if (!_arrayImageAssets) {
         _arrayImageAssets = [NSMutableArray array];
@@ -114,51 +132,56 @@
      //资源图片uti，唯一标示符
      NSLog(@"uti:%@",[representation UTI]);
      */
-    //执行遍历
-    [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {//遍历获取相册的组的block回调
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        if (group) {
-            //获取相簿的组
-            NSString *groupStr = [NSString stringWithFormat:@"%@",group];
-            NSLog(@"相册分组******* gg:%@",groupStr);//gg:ALAssetsGroup - Name:Camera Roll, Type:Saved Photos, Assets count:71
+        //执行遍历
+        [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {//遍历获取相册的组的block回调
             
-            NSString *g1 = [groupStr substringFromIndex:16] ;
-            
-            NSArray *arrTmp = [NSArray new];
-            arrTmp = [g1 componentsSeparatedByString:@","];
-            NSString *groupNameStr=[[arrTmp objectAtIndex:0] substringFromIndex:5];
-            NSLog(@"*******%@",groupNameStr);
-            if ([groupNameStr isEqualToString:@"Camera Roll"]) {
-                self.navigationItem.title = @"相机胶卷";
-            }
-            //组的name
-            //NSString *groupName = groupNameStr;
-            
-            //执行遍历，用对应的block遍历相册资源asset
-            [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) { //遍历获取对应组的照片asset
+            if (group) {
+                //获取相簿的组
+                NSString *groupStr = [NSString stringWithFormat:@"%@",group];
+                NSString *g1 = [groupStr substringFromIndex:16] ;
+                NSArray *arrTmp = [NSArray new];
+                arrTmp = [g1 componentsSeparatedByString:@","];
+                NSString *groupNameStr=[[arrTmp objectAtIndex:0] substringFromIndex:5];
                 
-                //NSLog(@"4-----%@",[NSThread currentThread]);
-                if (result) {
-                    
-                    if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto]) { //如果资源是照片的话
-                        [weakSelf.arrayImageAssets addObject:result];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([groupNameStr isEqualToString:@"Camera Roll"]) {
+                        self.navigationItem.title = @"相机胶卷";
                     }
-                }else{ //当照片加载完成的时候，最后的一次遍历group=nil
-                    [weakSelf createContents];
+                });
+                
+                //组的name
+                //NSString *groupName = groupNameStr;
+                
+                if ([groupNameStr isEqualToString:@"Camera Roll"]) {  //只获取camera roll的照片
+                    //执行遍历，用对应的block遍历相册资源asset
+                    [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) { //遍历获取对应组的照片asset
+                        if (result) {
+                            if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto]) { //如果资源是照片的话
+                                [weakSelf.arrayImageAssets addObject:result];
+                            }
+                        }else{ //当照片加载完成的时候，最后的一次遍历group=nil
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                if ([groupNameStr isEqualToString:@"Camera Roll"]) {
+                                    [weakSelf createContents];
+                                }
+                            });
+                        }
+                    }];
                 }
-            }];
+            }
+        } failureBlock:^(NSError *error) {//访问相册失败的block回调
             
-        }
-    } failureBlock:^(NSError *error) {//访问相册失败的block回调
+            NSLog(@"相册访问失败 =%@", [error localizedDescription]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"访问相册失败，请检查对本APP的相册访问权限" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                
+                [alertView show];
+            });
 
-        NSLog(@"相册访问失败 =%@", [error localizedDescription]);
-        if ([error.localizedDescription rangeOfString:@"Global denied access"].location!=NSNotFound) {
-            NSLog(@"无法访问相册.请在'设置->定位服务'设置为打开状态.");
-        }else{
-            NSLog(@"相册访问失败.");
-        }
-    }];
-  
+        }];
+    });
 }
 
 
@@ -300,7 +323,7 @@
     btn.selected = !btn.selected;
     
     [self updateToolView];
-    NSLog(@"---选中的照片---%@",self.arraySelectedImageAssets);
+//    NSLog(@"---选中的照片---%@",self.arraySelectedImageAssets);
 }
 
 -(void)promptWithTitle:(NSString *)titile message:(NSString *)message{
@@ -342,15 +365,14 @@
     return library;
 }
 
-#pragma mark - 多选视图控制器单利
+#pragma mark - 多选视图控制器单例
 + (SLSelectImageViewController *)defaultSelectImageVC{
 
     static dispatch_once_t token = 0;
-    static SLSelectImageViewController *selectImageVC = nil;
+    static SLSelectImageViewController *selectImageVC;
     dispatch_once(&token, ^{
         selectImageVC = [[SLSelectImageViewController alloc] init];
     });
-    
     return selectImageVC;
 }
 

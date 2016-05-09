@@ -38,6 +38,7 @@
 		71CD9CA41CD9F2E7005B8A1E /* SLCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9CA21CD9F2E7005B8A1E /* SLCollectionViewCell.m */; };
 		71CD9CA51CD9F2E7005B8A1E /* SLCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9CA31CD9F2E7005B8A1E /* SLCollectionViewCell.xib */; };
 		71CD9CA71CDB2475005B8A1E /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CD9CA61CDB2475005B8A1E /* AssetsLibrary.framework */; };
+		71FEB7C81CE090F600AF3520 /* deleteBtn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 71FEB7C71CE090F600AF3520 /* deleteBtn_bg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		71CD9CA21CD9F2E7005B8A1E /* SLCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCollectionViewCell.m; sourceTree = "<group>"; };
 		71CD9CA31CD9F2E7005B8A1E /* SLCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SLCollectionViewCell.xib; sourceTree = "<group>"; };
 		71CD9CA61CDB2475005B8A1E /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		71FEB7C71CE090F600AF3520 /* deleteBtn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deleteBtn_bg.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +213,7 @@
 		71CD9C821CD9EE0F005B8A1E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				71FEB7C71CE090F600AF3520 /* deleteBtn_bg.png */,
 				71979E6A1CDC9DBC00C890F6 /* addPicBtn.png */,
 				71CD9C831CD9EE0F005B8A1E /* btn_circle@2x.png */,
 				71CD9C841CD9EE0F005B8A1E /* btn_circle@3x.png */,
@@ -366,6 +369,7 @@
 				71CD9C511CD89C5C005B8A1E /* Assets.xcassets in Resources */,
 				71CD9C971CD9EE0F005B8A1E /* btn_selected@2x.png in Resources */,
 				71CD9C4F1CD89C5C005B8A1E /* Main.storyboard in Resources */,
+				71FEB7C81CE090F600AF3520 /* deleteBtn_bg.png in Resources */,
 				71CD9C951CD9EE0F005B8A1E /* btn_original_circle@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

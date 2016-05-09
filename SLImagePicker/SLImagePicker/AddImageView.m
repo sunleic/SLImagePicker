@@ -70,21 +70,19 @@
         //添加按钮
         cell.imgVIew.image = [UIImage imageNamed:@"addPicBtn"];
         cell.deleteBtn.hidden = YES;
-
     }else{
-        NSLog(@"------%lu",indexPath.row);
+        //NSLog(@"------%lu",indexPath.row);
         cell.imgVIew.image = _addPicArr[indexPath.row];
         cell.deleteBtn.hidden = NO;
         cell.deleteBtn.tag = indexPath.row;
         [cell.deleteBtn addTarget:self action:@selector(deleteBtn:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
     return cell;
 }
 
 #pragma mark -删除已选中的图片
 -(void)deleteBtn:(UIButton *)button{
-    NSLog(@"删除按钮被点击了---%lu",button.tag);
+    //NSLog(@"删除按钮被点击了---%lu",button.tag);
     if (_addPicArr.count > 0) {
         [_addPicArr removeObjectAtIndex:button.tag];
         [_collectionView reloadData];
@@ -93,12 +91,11 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"添加按钮被点击了--%lu-----图片总个数--%lu",indexPath.row,_addPicArr.count);
+    //NSLog(@"添加按钮被点击了--%lu-----图片总个数--%lu",indexPath.row,_addPicArr.count);
     if (indexPath.row == _addPicArr.count) {
         [self addPicBtn];
     }
 }
-
 
 -(void)addPicBtn{  //添加说说图片
     //NSLog(@"添加图片");
@@ -111,10 +108,10 @@
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"" message:@"请选择图片提取方式" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *actionCamera = [UIAlertAction actionWithTitle:@"从相册提取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
-        SLSelectImageViewController *selectedVC = [SLSelectImageViewController defaultSelectImageVC];
+        SLSelectImageViewController *selectedVC = [[SLSelectImageViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectedVC];
         selectedVC.maxSelectedCount = 4;
-        
+
         selectedVC.seletedArrBlock = ^(NSMutableArray *arr){
             
             for (ALAsset *assetTmp in arr) {
@@ -123,6 +120,10 @@
             }
             [_collectionView reloadData];
         };
+        
+        
+//        SLSelectImageViewController *selectedVC = [[SLSelectImageViewController alloc]init];
+//        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectedVC];
         
         [_targetVC presentViewController:nav animated:YES completion:nil];
     }];
@@ -178,7 +179,6 @@
             [_collectionView reloadData];
         }
     }
-    
     [_targetVC dismissViewControllerAnimated:YES completion:nil];
 }
 
