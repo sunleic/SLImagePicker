@@ -8,6 +8,7 @@
 
 #import "AddImageView.h"
 #import "SLSelectImageViewController.h"
+#import "AddImageCollectionViewCell.h"
 //#import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -48,7 +49,8 @@
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     
-    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"addPicCell"];
+    [_collectionView registerClass:[AddImageCollectionViewCell class] forCellWithReuseIdentifier:@"addPicCell"];
+    [_collectionView registerNib:[UINib nibWithNibName:@"AddImageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"addPicCell"];
     
     [self addSubview:_collectionView];
 }
@@ -62,21 +64,36 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addPicCell" forIndexPath:indexPath];
-    UIImageView *addImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
+    AddImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addPicCell" forIndexPath:indexPath];
+
     if (indexPath.row == _addPicArr.count) {
-        addImgView.image = [UIImage imageNamed:@"addPicBtn"];
+        //添加按钮
+        cell.imgVIew.image = [UIImage imageNamed:@"addPicBtn"];
+        cell.deleteBtn.hidden = YES;
+
     }else{
-        
-        addImgView.image = _addPicArr[indexPath.row];
+        NSLog(@"------%lu",indexPath.row);
+        cell.imgVIew.image = _addPicArr[indexPath.row];
+        cell.deleteBtn.hidden = NO;
+        cell.deleteBtn.tag = indexPath.row;
+        [cell.deleteBtn addTarget:self action:@selector(deleteBtn:) forControlEvents:UIControlEventTouchUpInside];
     }
-    cell.backgroundView = addImgView;
     
     return cell;
 }
 
+#pragma mark -删除已选中的图片
+-(void)deleteBtn:(UIButton *)button{
+    NSLog(@"删除按钮被点击了---%lu",button.tag);
+    if (_addPicArr.count > 0) {
+        [_addPicArr removeObjectAtIndex:button.tag];
+        [_collectionView reloadData];
+    }
+}
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    NSLog(@"添加按钮被点击了--%lu-----图片总个数--%lu",indexPath.row,_addPicArr.count);
     if (indexPath.row == _addPicArr.count) {
         [self addPicBtn];
     }
@@ -89,7 +106,7 @@
         _addPicArr = [NSMutableArray array];
     }
     
-    [_addPicArr removeAllObjects];
+//    [_addPicArr removeAllObjects];
     
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"" message:@"请选择图片提取方式" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *actionCamera = [UIAlertAction actionWithTitle:@"从相册提取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

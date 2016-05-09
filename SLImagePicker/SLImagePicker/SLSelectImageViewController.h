@@ -19,16 +19,9 @@
 //最大选择数
 @property (nonatomic, assign) NSInteger maxSelectedCount;
 
+//将选中的图片回传
 @property (nonatomic, copy) void(^seletedArrBlock)(NSMutableArray *arr);
 
 + (SLSelectImageViewController *)defaultSelectImageVC;
-
-//用于回调上级列表，把已选择的图片传回去
-//@property (nonatomic, weak) ZLPhotoBrowser *sender;
-
-//选则完成后回调
-//@property (nonatomic, copy) void (^DoneBlock)(NSArray<ZLSelectPhotoModel *> *selPhotoModels, NSArray<UIImage *> *selPhotos);
-//取消选择后回调
-//@property (nonatomic, copy) void (^CancelBlock)();
 
 @end

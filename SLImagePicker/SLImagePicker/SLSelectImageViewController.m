@@ -31,9 +31,24 @@
 //所选择原图的总共大小
 @property (nonatomic, strong)  UILabel *labPhotosBytes;
 
+//相册资源库
+@property (nonatomic, strong) ALAssetsLibrary* assetsLibrary;
+
 @end
 
 @implementation SLSelectImageViewController
+
+#warning 日了狗了，没有被调用
+-(void)dealloc{
+    
+    NSLog(@"%s",__func__);
+
+    self.collectionView = nil;
+    self.arrayImageAssets = nil;
+    self.arraySelectedImageAssets = nil;
+    self.seletedArrBlock = nil;
+    self.assetsLibrary = nil;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -100,8 +115,7 @@
      NSLog(@"uti:%@",[representation UTI]);
      */
     //执行遍历
-    ALAssetsLibrary* library = [SLSelectImageViewController defaultAssetsLibrary];
-    [library enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {//遍历获取相册的组的block回调
+    [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {//遍历获取相册的组的block回调
         
         if (group) {
             //获取相簿的组
@@ -110,7 +124,7 @@
             
             NSString *g1 = [groupStr substringFromIndex:16] ;
             
-            NSArray *arrTmp = [[NSArray alloc] init];
+            NSArray *arrTmp = [NSArray new];
             arrTmp = [g1 componentsSeparatedByString:@","];
             NSString *groupNameStr=[[arrTmp objectAtIndex:0] substringFromIndex:5];
             NSLog(@"*******%@",groupNameStr);
@@ -132,7 +146,6 @@
                 }else{ //当照片加载完成的时候，最后的一次遍历group=nil
                     [weakSelf createContents];
                 }
-
             }];
             
         }
@@ -300,6 +313,7 @@
     [self presentViewController:alertVC animated:YES completion:nil];
 }
 
+#pragma mark -被选中的相册容器
 -(NSMutableArray *)arraySelectedImageAssets{
     
     if (_arraySelectedImageAssets == nil) {
@@ -309,6 +323,14 @@
     return _arraySelectedImageAssets;
 }
 
+#pragma mark -相册资源库
+-(ALAssetsLibrary *)assetsLibrary{
+
+    if (_assetsLibrary == nil) {
+        _assetsLibrary = [SLSelectImageViewController defaultAssetsLibrary];
+    }
+    return _assetsLibrary;
+}
 
 #pragma mark -ALAssetsLibrary 相薄单例
 + (ALAssetsLibrary *)defaultAssetsLibrary {
