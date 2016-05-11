@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		711B2FD21CDF594F000B486C /* AddImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 711B2FD01CDF594F000B486C /* AddImageCollectionViewCell.m */; };
 		711B2FD31CDF594F000B486C /* AddImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 711B2FD11CDF594F000B486C /* AddImageCollectionViewCell.xib */; };
+		7142FAE41CE1D8E900DCE86D /* SLCollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7142FAE31CE1D8E900DCE86D /* SLCollectionModel.m */; };
 		71979E691CDC96A000C890F6 /* AddImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71979E681CDC96A000C890F6 /* AddImageView.m */; };
 		71979E6B1CDC9DBD00C890F6 /* addPicBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 71979E6A1CDC9DBC00C890F6 /* addPicBtn.png */; };
 		71CD9C461CD89C5C005B8A1E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C451CD89C5C005B8A1E /* main.m */; };
@@ -62,6 +63,8 @@
 		711B2FCF1CDF594F000B486C /* AddImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddImageCollectionViewCell.h; sourceTree = "<group>"; };
 		711B2FD01CDF594F000B486C /* AddImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddImageCollectionViewCell.m; sourceTree = "<group>"; };
 		711B2FD11CDF594F000B486C /* AddImageCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddImageCollectionViewCell.xib; sourceTree = "<group>"; };
+		7142FAE21CE1D8E900DCE86D /* SLCollectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCollectionModel.h; sourceTree = "<group>"; };
+		7142FAE31CE1D8E900DCE86D /* SLCollectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCollectionModel.m; sourceTree = "<group>"; };
 		71979E671CDC96A000C890F6 /* AddImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddImageView.h; sourceTree = "<group>"; };
 		71979E681CDC96A000C890F6 /* AddImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddImageView.m; sourceTree = "<group>"; };
 		71979E6A1CDC9DBC00C890F6 /* addPicBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addPicBtn.png; sourceTree = "<group>"; };
@@ -132,6 +135,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7142FAE11CE1D8C500DCE86D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7142FAE21CE1D8E900DCE86D /* SLCollectionModel.h */,
+				7142FAE31CE1D8E900DCE86D /* SLCollectionModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		71CD9C381CD89C5C005B8A1E = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +212,7 @@
 		71CD9C771CD89D82005B8A1E /* SLImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				7142FAE11CE1D8C500DCE86D /* Model */,
 				71CD9CA01CD9F2DA005B8A1E /* View */,
 				71CD9C821CD9EE0F005B8A1E /* Images */,
 				71CD9C7A1CD9D488005B8A1E /* SLSelectImageViewController.h */,
@@ -397,6 +410,7 @@
 			files = (
 				71CD9C4C1CD89C5C005B8A1E /* ViewController.m in Sources */,
 				71CD9C7C1CD9D488005B8A1E /* SLSelectImageViewController.m in Sources */,
+				7142FAE41CE1D8E900DCE86D /* SLCollectionModel.m in Sources */,
 				71979E691CDC96A000C890F6 /* AddImageView.m in Sources */,
 				71CD9C491CD89C5C005B8A1E /* AppDelegate.m in Sources */,
 				71CD9CA41CD9F2E7005B8A1E /* SLCollectionViewCell.m in Sources */,

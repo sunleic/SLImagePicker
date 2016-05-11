@@ -9,6 +9,7 @@
 #import "AddImageView.h"
 #import "SLSelectImageViewController.h"
 #import "AddImageCollectionViewCell.h"
+#import "SLCollectionModel.h"
 //#import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -43,7 +44,10 @@
 -(void)createCellction{
     
     UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc]init];
-    flow.itemSize = CGSizeMake(60, 60);
+    flow.itemSize = CGSizeMake((SCREEN_W - 20 -8)/5, (SCREEN_W - 20 - 8)/5);
+    flow.minimumInteritemSpacing = 1.5;
+    flow.minimumLineSpacing = 1.5;
+    
     _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(10, 305, SCREEN_W - 20, SCREEN_H - 305) collectionViewLayout:flow];
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.delegate = self;
@@ -72,7 +76,8 @@
         cell.deleteBtn.hidden = YES;
     }else{
         //NSLog(@"------%lu",indexPath.row);
-        cell.imgVIew.image = _addPicArr[indexPath.row];
+        SLCollectionModel *model = _addPicArr[indexPath.row];
+        cell.imgVIew.image = [UIImage imageWithCGImage:model.asset.defaultRepresentation.fullScreenImage];
         cell.deleteBtn.hidden = NO;
         cell.deleteBtn.tag = indexPath.row;
         [cell.deleteBtn addTarget:self action:@selector(deleteBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -97,33 +102,46 @@
     }
 }
 
+#pragma mark - 添加图片
 -(void)addPicBtn{  //添加说说图片
     //NSLog(@"添加图片");
     if (!_addPicArr) { //初始化容器
         _addPicArr = [NSMutableArray array];
     }
     
-//    [_addPicArr removeAllObjects];
+    if (_addPicArr.count > 8) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"选择图片的个数不能大于9张！" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:cancel];
+        [_targetVC presentViewController:alert animated:YES completion:nil];
+        
+        return;
+    }
     
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"" message:@"请选择图片提取方式" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *actionCamera = [UIAlertAction actionWithTitle:@"从相册提取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         SLSelectImageViewController *selectedVC = [[SLSelectImageViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectedVC];
-        selectedVC.maxSelectedCount = 4;
+        selectedVC.maxSelectedCount = 9;
+        
 
         selectedVC.seletedArrBlock = ^(NSMutableArray *arr){
-            
-            for (ALAsset *assetTmp in arr) {
-                UIImage *image = [UIImage imageWithCGImage:assetTmp.defaultRepresentation.fullScreenImage];
-                [_addPicArr addObject:image];
+            [_addPicArr removeAllObjects];
+            for (SLCollectionModel *modelTmp in arr) {
+                [_addPicArr addObject:modelTmp];
             }
             [_collectionView reloadData];
         };
         
-        
-//        SLSelectImageViewController *selectedVC = [[SLSelectImageViewController alloc]init];
-//        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectedVC];
+        //每一次点击添加按钮时，要把已经选择的照片到相片选择器中
+        if (_addPicArr.count > 0) {
+            
+            for (SLCollectionModel *model  in _addPicArr) {
+                [selectedVC.arraySelectedImageAssets addObject:model];
+            }
+        }
         
         [_targetVC presentViewController:nav animated:YES completion:nil];
     }];

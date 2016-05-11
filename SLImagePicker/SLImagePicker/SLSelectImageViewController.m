@@ -8,6 +8,7 @@
 
 #import "SLSelectImageViewController.h"
 #import "SLCollectionViewCell.h"
+#import "SLCollectionModel.h"
 //#import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -41,7 +42,7 @@
 #warning 日了狗了，没有被调用(原因竟是使用了defaultSelectImageVC方法)
 -(void)dealloc{
     
-//    NSLog(@"*******%s",__func__);
+    NSLog(@"*******%s",__func__);
 
     self.collectionView.delegate = nil;
     self.collectionView.dataSource = nil;
@@ -57,6 +58,8 @@
     if (self.maxSelectedCount == 0) {
         self.maxSelectedCount = 3;
     }
+    
+    [self updateToolView];
     
     UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
     [rightBtn setTitle:@"取消" forState:UIControlStateNormal];
@@ -159,12 +162,37 @@
                     [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) { //遍历获取对应组的照片asset
                         if (result) {
                             if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto]) { //如果资源是照片的话
-                                [weakSelf.arrayImageAssets addObject:result];
+                                //
+                                SLCollectionModel *model = [[SLCollectionModel alloc]init];
+                                
+                                model.asset = result;
+                                model.isSelected = NO;
+                                
+                                [weakSelf.arrayImageAssets addObject:model];
                             }
                         }else{ //当照片加载完成的时候，最后的一次遍历group=nil
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 if ([groupNameStr isEqualToString:@"Camera Roll"]) {
+                                    
+                                    //将已经选中的图片在现到图片选择器上
+                                    if (self.arraySelectedImageAssets.count > 0) {
+                                        
+                                        for (SLCollectionModel *modelTmp in self.arraySelectedImageAssets) {
+                                            
+                                            NSString *str1 = [NSString stringWithFormat:@"%@",modelTmp.asset.defaultRepresentation.url];
+                                            NSLog(@"++++++++long---%d",modelTmp.isSelected);
+                                            for (SLCollectionModel *tmp in self.arrayImageAssets) {
+                                                NSString *str2 = [NSString stringWithFormat:@"%@",tmp.asset.defaultRepresentation.url];
+                                                if ([str1 isEqualToString:str2]) {
+                                                    tmp.isSelected = YES;
+                                                }
+                                                NSLog(@"*******long****%d",tmp.isSelected);
+                                            }
+                                        }
+                                    }
+                                    //创建图片选择器
                                     [weakSelf createContents];
+                                    [weakSelf updateToolView];
                                 }
                             });
                         }
@@ -185,7 +213,7 @@
 }
 
 
-#pragma mark - 创建collectionView
+#pragma mark - 创建相册选择器
 - (void)createContents{
     NSLog(@"创建相册");
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
@@ -280,20 +308,21 @@
 
     SLCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseID" forIndexPath:indexPath];
     
-    ALAsset *asset = _arrayImageAssets[indexPath.row];
-    cell.imgView.image = [UIImage imageWithCGImage:asset.thumbnail];
+    SLCollectionModel *model = _arrayImageAssets[indexPath.row];
+    
+    cell.imgView.image = [UIImage imageWithCGImage:model.asset.thumbnail];
     cell.imgView.backgroundColor = [UIColor purpleColor];
     cell.imgView.contentMode = UIViewContentModeScaleAspectFill;
     cell.imgView.clipsToBounds = YES;
     
-    cell.btnSelect.selected = NO;
+    cell.btnSelect.selected = model.isSelected;
     cell.btnSelect.tag = indexPath.row;
     [cell.btnSelect addTarget:self action:@selector(imageClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
 
-#pragma mark - UIButton Action
+#pragma mark - 选中照片
 - (void)imageClick:(UIButton *)btn{
     
     if (self.arraySelectedImageAssets.count >= self.maxSelectedCount && btn.selected == NO) {
@@ -301,23 +330,23 @@
         return;
     }
     
-    ALAsset *asset = _arrayImageAssets[btn.tag];
-    NSString *imgUrlStr = [NSString stringWithFormat:@"%@",asset.defaultRepresentation.url];
+    SLCollectionModel *model = _arrayImageAssets[btn.tag];
+    NSString *imgUrlStr = [NSString stringWithFormat:@"%@",model.asset.defaultRepresentation.url];
     
-    if (!btn.selected) {
+    if (!btn.selected) { //添加图片,默认的照片按钮都没选中
         //添加图片到选中数组
-        [self.arraySelectedImageAssets addObject:asset];
+        model.isSelected = YES;
+        [self.arraySelectedImageAssets addObject:model];
     
-    } else {
-        for (ALAsset *assetTmp in self.arraySelectedImageAssets) {
+    } else {   //移除图片
+        for (SLCollectionModel *modelTmp in self.arraySelectedImageAssets) {
             
-            NSString *imgUrlStrTmp = [NSString stringWithFormat:@"%@",assetTmp.defaultRepresentation.url];
+            NSString *imgUrlStrTmp = [NSString stringWithFormat:@"%@",modelTmp.asset.defaultRepresentation.url];
             if ([imgUrlStrTmp isEqualToString:imgUrlStr]) {
-                [self.arraySelectedImageAssets removeObject:assetTmp];
+                [self.arraySelectedImageAssets removeObject:modelTmp];
                 break;
             }
         }
-        
     }
     
     btn.selected = !btn.selected;
@@ -342,7 +371,6 @@
     if (_arraySelectedImageAssets == nil) {
         _arraySelectedImageAssets = [NSMutableArray array];
     }
-    
     return _arraySelectedImageAssets;
 }
 
