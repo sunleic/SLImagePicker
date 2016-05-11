@@ -1,12 +1,12 @@
 //
-//  SLSelectImageViewController.m
+//  SLMultiSelectImagesVC.m
 //  SLImagePicker
 //
 //  Created by 孙磊 on 16/5/4.
 //  Copyright © 2016年 孙磊. All rights reserved.
 //
 
-#import "SLSelectImageViewController.h"
+#import "SLMultiSelectImagesVC.h"
 #import "SLCollectionViewCell.h"
 #import "SLCollectionModel.h"
 //#import <Photos/Photos.h>
@@ -15,7 +15,7 @@
 #define SCREEN_W [UIScreen mainScreen].bounds.size.width
 #define SCREEN_H [UIScreen mainScreen].bounds.size.height
 
-@interface SLSelectImageViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface SLMultiSelectImagesVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 //图片的asset
 @property (nonatomic, strong) NSMutableArray *arrayImageAssets;
@@ -37,7 +37,7 @@
 
 @end
 
-@implementation SLSelectImageViewController
+@implementation SLMultiSelectImagesVC
 
 #warning 日了狗了，没有被调用(原因竟是使用了defaultSelectImageVC方法)
 -(void)dealloc{
@@ -378,7 +378,7 @@
 -(ALAssetsLibrary *)assetsLibrary{
 
     if (_assetsLibrary == nil) {
-        _assetsLibrary = [SLSelectImageViewController defaultAssetsLibrary];
+        _assetsLibrary = [SLMultiSelectImagesVC defaultAssetsLibrary];
     }
     return _assetsLibrary;
 }
@@ -394,12 +394,12 @@
 }
 
 #pragma mark - 多选视图控制器单例
-+ (SLSelectImageViewController *)defaultSelectImageVC{
++ (SLMultiSelectImagesVC *)defaultSelectImageVC{
 
     static dispatch_once_t token = 0;
-    static SLSelectImageViewController *selectImageVC;
+    static SLMultiSelectImagesVC *selectImageVC;
     dispatch_once(&token, ^{
-        selectImageVC = [[SLSelectImageViewController alloc] init];
+        selectImageVC = [[SLMultiSelectImagesVC alloc] init];
     });
     return selectImageVC;
 }

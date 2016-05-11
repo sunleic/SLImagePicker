@@ -1,5 +1,5 @@
 //
-//  SLSelectImageViewController.h
+//  SLMultiSelectImagesVC.h
 //  SLImagePicker
 //
 //  Created by 孙磊 on 16/5/4.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SLSelectImageViewController : UIViewController
+@interface SLMultiSelectImagesVC : UIViewController
 
 //相册缩略图列表
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -22,6 +22,6 @@
 //将选中的图片回传
 @property (nonatomic, copy) void(^seletedArrBlock)(NSMutableArray *arr);
 
-+ (SLSelectImageViewController *)defaultSelectImageVC;
++ (SLMultiSelectImagesVC *)defaultSelectImageVC;
 
 @end

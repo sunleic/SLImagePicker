@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SLSelectImageViewController.h"
+#import "SLMultiSelectImagesVC.h"
 #import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AddImageView.h"
@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger,SLFecthcPictureType) {
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(100, 100, 100, 40)];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((self.view.frame.size.width - 100)/2, 100, 100, 40)];
     [button setTitle:@"获取照片" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     

@@ -7,7 +7,7 @@
 //
 
 #import "AddImageView.h"
-#import "SLSelectImageViewController.h"
+#import "SLMultiSelectImagesVC.h"
 #import "AddImageCollectionViewCell.h"
 #import "SLCollectionModel.h"
 //#import <Photos/Photos.h>
@@ -122,7 +122,7 @@
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"" message:@"请选择图片提取方式" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *actionCamera = [UIAlertAction actionWithTitle:@"从相册提取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
-        SLSelectImageViewController *selectedVC = [[SLSelectImageViewController alloc]init];
+        SLMultiSelectImagesVC *selectedVC = [[SLMultiSelectImagesVC alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectedVC];
         selectedVC.maxSelectedCount = 9;
         
@@ -135,7 +135,7 @@
             [_collectionView reloadData];
         };
         
-        //每一次点击添加按钮时，要把已经选择的照片到相片选择器中
+        //当图片需要二次选择时，将已经选择的图片再现到图片选择器中
         if (_addPicArr.count > 0) {
             
             for (SLCollectionModel *model  in _addPicArr) {
