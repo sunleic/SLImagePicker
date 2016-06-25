@@ -39,7 +39,7 @@
 
 @implementation SLMultiSelectImagesVC
 
-#warning 日了狗了，没有被调用(原因竟是使用了defaultSelectImageVC方法)
+#warning 日了狗了，没有被调用(原因竟是使用了defaultSelectImageVC单例方法)
 -(void)dealloc{
     
     NSLog(@"*******%s",__func__);
@@ -80,7 +80,7 @@
 
 #pragma mark -获取相册的所有图片
 - (void)fetchImagesFromLibrary{
-  
+    
     //做相册授权判断
     ALAuthorizationStatus authorizationStatus = [ALAssetsLibrary authorizationStatus];
     if (authorizationStatus == ALAuthorizationStatusRestricted || authorizationStatus == ALAuthorizationStatusDenied) {
@@ -93,7 +93,7 @@
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             //可以跳转到设置
             //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@""]];
-        
+            
         }];
         
         [alertVC addAction:cancel];
@@ -108,35 +108,8 @@
     }
     __weak typeof(self) weakSelf = self;
     
-    /*
-     //
-     //获取资源图片的详细资源信息
-     ALAssetRepresentation* representation = [asset defaultRepresentation];
-     //获取资源图片的长宽
-     CGSize dimension = [representation dimensions];
-     //获取资源图片的高清图
-     [representation fullResolutionImage];
-     //获取资源图片的全屏图
-     [representation fullScreenImage];
-     //获取资源图片的名字
-     NSString* filename = [representation filename];
-     NSLog(@"filename:%@",filename);
-     //缩放倍数
-     [representation scale];
-     //图片资源容量大小
-     [representation size];
-     //图片资源原数据
-     [representation metadata];
-     //旋转方向
-     [representation orientation];
-     //资源图片url地址，该地址和ALAsset通过ALAssetPropertyAssetURL获取的url地址是一样的
-     NSURL* url = [representation url];
-     NSLog(@"url:%@",url);
-     //资源图片uti，唯一标示符
-     NSLog(@"uti:%@",[representation UTI]);
-     */
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
+        NSLog(@"------++++++++---");
         //执行遍历
         [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {//遍历获取相册的组的block回调
             
@@ -146,21 +119,23 @@
                 NSString *g1 = [groupStr substringFromIndex:16] ;
                 NSArray *arrTmp = [NSArray new];
                 arrTmp = [g1 componentsSeparatedByString:@","];
-                NSString *groupNameStr=[[arrTmp objectAtIndex:0] substringFromIndex:5];
+                NSString *groupNameStr = [[[arrTmp objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if ([groupNameStr isEqualToString:@"Camera Roll"]) {
+                    if ([groupNameStr isEqualToString:@"Camera Roll"] || [groupNameStr isEqualToString:@"相机胶卷"]) {
                         self.navigationItem.title = @"相机胶卷";
                     }
                 });
-                
+                NSLog(@"------++++++++---%@",group);
                 //组的name
                 //NSString *groupName = groupNameStr;
                 
-                if ([groupNameStr isEqualToString:@"Camera Roll"]) {  //只获取camera roll的照片
+                if ([groupNameStr isEqualToString:@"Camera Roll"] || [groupNameStr isEqualToString:@"相机胶卷"]) {  //只获取camera roll的照片
+                    NSLog(@"adjflakdjfasdfjkl");
                     //执行遍历，用对应的block遍历相册资源asset
                     [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) { //遍历获取对应组的照片asset
                         if (result) {
+                            NSLog(@"result=-------");
                             if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto]) { //如果资源是照片的话
                                 //
                                 SLCollectionModel *model = [[SLCollectionModel alloc]init];
@@ -171,22 +146,29 @@
                                 [weakSelf.arrayImageAssets addObject:model];
                             }
                         }else{ //当照片加载完成的时候，最后的一次遍历group=nil
+                            NSLog(@"result=-------++++");
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                if ([groupNameStr isEqualToString:@"Camera Roll"]) {
+                                if ([groupNameStr isEqualToString:@"Camera Roll"] || [groupNameStr isEqualToString:@"相机胶卷"]) {
                                     
-                                    //将已经选中的图片在现到图片选择器上
+                                    //将已经选中的图片重现到图片选择器上
                                     if (self.arraySelectedImageAssets.count > 0) {
                                         
-                                        for (SLCollectionModel *modelTmp in self.arraySelectedImageAssets) {
+                                        for (id modelTmp in self.arraySelectedImageAssets) {
                                             
-                                            NSString *str1 = [NSString stringWithFormat:@"%@",modelTmp.asset.defaultRepresentation.url];
-                                            NSLog(@"++++++++long---%d",modelTmp.isSelected);
-                                            for (SLCollectionModel *tmp in self.arrayImageAssets) {
-                                                NSString *str2 = [NSString stringWithFormat:@"%@",tmp.asset.defaultRepresentation.url];
-                                                if ([str1 isEqualToString:str2]) {
-                                                    tmp.isSelected = YES;
+                                            if ([modelTmp isKindOfClass:[SLCollectionModel class]]) {
+                                                
+                                                SLCollectionModel *modelT = modelTmp;
+                                                
+                                                NSString *str1 = [NSString stringWithFormat:@"%@",modelT.asset.defaultRepresentation.url];
+                                                NSLog(@"++++++++long---%d",modelT.isSelected);
+                                                for (SLCollectionModel *tmp in self.arrayImageAssets) {
+                                                    NSString *str2 = [NSString stringWithFormat:@"%@",tmp.asset.defaultRepresentation.url];
+                                                    if ([str1 isEqualToString:str2]) {
+                                                        tmp.isSelected = YES;
+                                                    }
+                                                    NSLog(@"*******long****%d",tmp.isSelected);
                                                 }
-                                                NSLog(@"*******long****%d",tmp.isSelected);
+                                                
                                             }
                                         }
                                     }
@@ -207,11 +189,10 @@
                 
                 [alertView show];
             });
-
+            
         }];
     });
 }
-
 
 #pragma mark - 创建相册选择器
 - (void)createContents{
@@ -337,7 +318,7 @@
         //添加图片到选中数组
         model.isSelected = YES;
         [self.arraySelectedImageAssets addObject:model];
-    
+        
     } else {   //移除图片
         for (SLCollectionModel *modelTmp in self.arraySelectedImageAssets) {
             
@@ -352,7 +333,7 @@
     btn.selected = !btn.selected;
     
     [self updateToolView];
-//    NSLog(@"---选中的照片---%@",self.arraySelectedImageAssets);
+    //    NSLog(@"---选中的照片---%@",self.arraySelectedImageAssets);
 }
 
 -(void)promptWithTitle:(NSString *)titile message:(NSString *)message{

@@ -69,21 +69,29 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     AddImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addPicCell" forIndexPath:indexPath];
-
+    
     if (indexPath.row == _addPicArr.count) {
         //添加按钮
         cell.imgVIew.image = [UIImage imageNamed:@"addPicBtn"];
         cell.deleteBtn.hidden = YES;
     }else{
         //NSLog(@"------%lu",indexPath.row);
-        SLCollectionModel *model = _addPicArr[indexPath.row];
-        cell.imgVIew.image = [UIImage imageWithCGImage:model.asset.defaultRepresentation.fullScreenImage];
+        id model = _addPicArr[indexPath.row];
+        
+        if ([model isKindOfClass:[SLCollectionModel class]]) {
+            SLCollectionModel *modelT = model;
+            cell.imgVIew.image = [UIImage imageWithCGImage:modelT.asset.defaultRepresentation.fullScreenImage];
+        }else{
+            cell.imgVIew.image = model;
+        }
+        
         cell.deleteBtn.hidden = NO;
         cell.deleteBtn.tag = indexPath.row;
         [cell.deleteBtn addTarget:self action:@selector(deleteBtn:) forControlEvents:UIControlEventTouchUpInside];
     }
     return cell;
 }
+
 
 #pragma mark -删除已选中的图片
 -(void)deleteBtn:(UIButton *)button{

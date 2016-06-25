@@ -567,7 +567,7 @@
 				INFOPLIST_FILE = SLImagePicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sunlei.SLImagePicker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunleis.SLImagePicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -582,7 +582,7 @@
 				INFOPLIST_FILE = SLImagePicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sunlei.SLImagePicker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunleis.SLImagePicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
