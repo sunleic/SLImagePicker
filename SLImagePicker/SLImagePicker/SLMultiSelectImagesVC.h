@@ -13,13 +13,13 @@
 //相册缩略图列表
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-//选中的的照片
+//选中的照片的数组
 @property (nonatomic, strong) NSMutableArray *arraySelectedImageAssets;
 
 //最大选择数
 @property (nonatomic, assign) NSInteger maxSelectedCount;
 
-//将选中的图片回传
+//将选中的图片数组回传
 @property (nonatomic, copy) void(^seletedArrBlock)(NSMutableArray *arr);
 
 + (SLMultiSelectImagesVC *)defaultSelectImageVC;

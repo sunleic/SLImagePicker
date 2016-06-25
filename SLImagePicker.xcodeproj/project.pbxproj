@@ -21,7 +21,6 @@
 		71CD9C541CD89C5C005B8A1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C521CD89C5C005B8A1E /* LaunchScreen.storyboard */; };
 		71CD9C5F1CD89C5C005B8A1E /* SLImagePickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C5E1CD89C5C005B8A1E /* SLImagePickerTests.m */; };
 		71CD9C6A1CD89C5C005B8A1E /* SLImagePickerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C691CD89C5C005B8A1E /* SLImagePickerUITests.m */; };
-		71CD9C791CD9A4FE005B8A1E /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CD9C781CD9A4FE005B8A1E /* Photos.framework */; };
 		71CD9C7C1CD9D488005B8A1E /* SLMultiSelectImagesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD9C7B1CD9D488005B8A1E /* SLMultiSelectImagesVC.m */; };
 		71CD9C911CD9EE0F005B8A1E /* btn_circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C831CD9EE0F005B8A1E /* btn_circle@2x.png */; };
 		71CD9C921CD9EE0F005B8A1E /* btn_circle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71CD9C841CD9EE0F005B8A1E /* btn_circle@3x.png */; };
@@ -116,7 +115,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				71CD9CA71CDB2475005B8A1E /* AssetsLibrary.framework in Frameworks */,
-				71CD9C791CD9A4FE005B8A1E /* Photos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

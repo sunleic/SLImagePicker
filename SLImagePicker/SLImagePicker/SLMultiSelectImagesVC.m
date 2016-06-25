@@ -9,7 +9,7 @@
 #import "SLMultiSelectImagesVC.h"
 #import "SLCollectionViewCell.h"
 #import "SLCollectionModel.h"
-//#import <Photos/Photos.h>
+
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #define SCREEN_W [UIScreen mainScreen].bounds.size.width
@@ -17,8 +17,8 @@
 
 @interface SLMultiSelectImagesVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
-//图片的asset
-@property (nonatomic, strong) NSMutableArray *arrayImageAssets;
+//装载相册图片的asset
+@property (nonatomic, strong) NSMutableArray *imageAssetsArr;
 
 //确定按钮
 @property (nonatomic, strong) UIButton *doneBtn;
@@ -48,6 +48,12 @@
     self.collectionView.dataSource = nil;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self fetchImagesFromLibrary];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -69,8 +75,6 @@
     UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
     
     self.navigationItem.rightBarButtonItem = rightBarBtn;
-    
-    [self fetchImagesFromLibrary];
 }
 
 -(void)dismissVC{
@@ -81,30 +85,8 @@
 #pragma mark -获取相册的所有图片
 - (void)fetchImagesFromLibrary{
     
-    //做相册授权判断
-    ALAuthorizationStatus authorizationStatus = [ALAssetsLibrary authorizationStatus];
-    if (authorizationStatus == ALAuthorizationStatusRestricted || authorizationStatus == ALAuthorizationStatusDenied) {
-        
-        NSString *displayName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-        
-        NSString *tips = [NSString stringWithFormat:@"请在设备的\"设置-隐私-照片\"选项中，允许%@访问你的手机相册",displayName];
-        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:tips preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //可以跳转到设置
-            //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@""]];
-            
-        }];
-        
-        [alertVC addAction:cancel];
-        [self presentViewController:alertVC animated:YES completion:nil];
-        
-        return;
-    }
-    
-    
-    if (!_arrayImageAssets) {
-        _arrayImageAssets = [NSMutableArray array];
+    if (!_imageAssetsArr) {
+        _imageAssetsArr = [NSMutableArray array];
     }
     __weak typeof(self) weakSelf = self;
     
@@ -112,7 +94,7 @@
         NSLog(@"------++++++++---");
         //执行遍历
         [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {//遍历获取相册的组的block回调
-            
+            NSLog(@"相片的个数++++%lu",group.numberOfAssets);
             if (group) {
                 //获取相簿的组
                 NSString *groupStr = [NSString stringWithFormat:@"%@",group];
@@ -134,6 +116,7 @@
                     NSLog(@"adjflakdjfasdfjkl");
                     //执行遍历，用对应的block遍历相册资源asset
                     [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) { //遍历获取对应组的照片asset
+                        NSLog(@"index++++++%lu",index);
                         if (result) {
                             NSLog(@"result=-------");
                             if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto]) { //如果资源是照片的话
@@ -143,7 +126,7 @@
                                 model.asset = result;
                                 model.isSelected = NO;
                                 
-                                [weakSelf.arrayImageAssets addObject:model];
+                                [weakSelf.imageAssetsArr addObject:model];
                             }
                         }else{ //当照片加载完成的时候，最后的一次遍历group=nil
                             NSLog(@"result=-------++++");
@@ -161,7 +144,7 @@
                                                 
                                                 NSString *str1 = [NSString stringWithFormat:@"%@",modelT.asset.defaultRepresentation.url];
                                                 NSLog(@"++++++++long---%d",modelT.isSelected);
-                                                for (SLCollectionModel *tmp in self.arrayImageAssets) {
+                                                for (SLCollectionModel *tmp in self.imageAssetsArr) {
                                                     NSString *str2 = [NSString stringWithFormat:@"%@",tmp.asset.defaultRepresentation.url];
                                                     if ([str1 isEqualToString:str2]) {
                                                         tmp.isSelected = YES;
@@ -268,7 +251,7 @@
     NSLog(@"预览");
 }
 
-#pragma mark -回传选中的图片
+#pragma mark -回传选中的图片的数组
 -(void)doneBtn:(UIButton *)button{
     NSLog(@"回传选中的图片");
     self.seletedArrBlock(self.arraySelectedImageAssets);
@@ -281,16 +264,17 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    NSLog(@"相片的个数++++%lu",_arrayImageAssets.count);
-    return _arrayImageAssets.count;
+
+    return _imageAssetsArr.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
 
     SLCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseID" forIndexPath:indexPath];
     
-    SLCollectionModel *model = _arrayImageAssets[indexPath.row];
+    SLCollectionModel *model = _imageAssetsArr[indexPath.row];
     
+    //缩略图
     cell.imgView.image = [UIImage imageWithCGImage:model.asset.thumbnail];
     cell.imgView.backgroundColor = [UIColor purpleColor];
     cell.imgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -303,7 +287,7 @@
     return cell;
 }
 
-#pragma mark - 选中照片
+#pragma mark - 选中或取消选中的照片
 - (void)imageClick:(UIButton *)btn{
     
     if (self.arraySelectedImageAssets.count >= self.maxSelectedCount && btn.selected == NO) {
@@ -311,7 +295,7 @@
         return;
     }
     
-    SLCollectionModel *model = _arrayImageAssets[btn.tag];
+    SLCollectionModel *model = _imageAssetsArr[btn.tag];
     NSString *imgUrlStr = [NSString stringWithFormat:@"%@",model.asset.defaultRepresentation.url];
     
     if (!btn.selected) { //添加图片,默认的照片按钮都没选中

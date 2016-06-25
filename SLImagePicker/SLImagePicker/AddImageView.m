@@ -18,11 +18,19 @@
 
 @interface AddImageView ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 
+//装载相册图片的asset
+@property (nonatomic, strong) NSMutableArray *imageAssetsArr;
+//相册资源库
+@property (nonatomic, strong) ALAssetsLibrary* assetsLibrary;
+
+//相册中的最后一张照片的model
+@property (nonatomic, strong) SLCollectionModel *lastImageModel;
+
 @end
 
 @implementation AddImageView{
     
-    NSMutableArray *_addPicArr; //从相册或相机中获取的像相片的容器
+    NSMutableArray *_addPicArr; //从相册或相机中获取的像相片的容器，装的是已经选择照片的SLCollectionModel
     UIActivityIndicatorView *_indicatorView; //显示相片保存状态的指示器
     UICollectionView *_collectionView;
     UIImagePickerController *_picker;
@@ -76,14 +84,10 @@
         cell.deleteBtn.hidden = YES;
     }else{
         //NSLog(@"------%lu",indexPath.row);
-        id model = _addPicArr[indexPath.row];
-        
-        if ([model isKindOfClass:[SLCollectionModel class]]) {
-            SLCollectionModel *modelT = model;
-            cell.imgVIew.image = [UIImage imageWithCGImage:modelT.asset.defaultRepresentation.fullScreenImage];
-        }else{
-            cell.imgVIew.image = model;
-        }
+
+        SLCollectionModel *modelT = _addPicArr[indexPath.row];;
+        cell.imgVIew.image = [UIImage imageWithCGImage:modelT.asset.defaultRepresentation.fullScreenImage];
+       
         
         cell.deleteBtn.hidden = NO;
         cell.deleteBtn.tag = indexPath.row;
@@ -136,6 +140,7 @@
         
 
         selectedVC.seletedArrBlock = ^(NSMutableArray *arr){
+            //讲原来的已经选中的图片清空
             [_addPicArr removeAllObjects];
             for (SLCollectionModel *modelTmp in arr) {
                 [_addPicArr addObject:modelTmp];
@@ -145,7 +150,8 @@
         
         //当图片需要二次选择时，将已经选择的图片再现到图片选择器中
         if (_addPicArr.count > 0) {
-            
+            //将多选框的已经选中的照片数据源清空
+            [selectedVC.arraySelectedImageAssets removeAllObjects];
             for (SLCollectionModel *model  in _addPicArr) {
                 [selectedVC.arraySelectedImageAssets addObject:model];
             }
@@ -176,11 +182,14 @@
     }
     
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
         _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         NSArray *temp_MediaTypes = [UIImagePickerController availableMediaTypesForSourceType:_picker.sourceType];
         _picker.mediaTypes = temp_MediaTypes;
         [_targetVC presentViewController:_picker animated:YES completion:nil];
+   
     }else{
+        
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"失败" message:@"调取相机失败" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
         [alert addAction:ok];
@@ -198,11 +207,9 @@
         if ([mediaType isEqualToString:@"public.image"]){  //存储由照相机获取的图片
             
             UIImage *newImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-            //将照片保存到相册
+//            NSLog(@"++++++)))((******%@",info);
+            //将原照片保存到相册
             [self saveImage:newImage];
-            //插入说说照片
-            [_addPicArr addObject:newImage];
-            [_collectionView reloadData];
         }
     }
     [_targetVC dismissViewControllerAnimated:YES completion:nil];
@@ -217,8 +224,117 @@
 
 - (void)saveImage:(UIImage *)image{
     
-    UIImageWriteToSavedPhotosAlbum(image, self, nil, NULL);
+    //第三个参数是固定的，不能随意更改
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 }
 
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    // Was there an error?
+    if (error != NULL)
+    {
+        // Show error message...
+        NSLog(@"+++相册保存失败++");
+    }
+    else  // No errors
+    {
+        // Show message image successfully save
+       
+        
+        //获取刚刚照的照片对应的model
+        [self fetchLastImagesFromLibrary];
+
+    }
+}
+
+
+#pragma mark -获取相册的最后一张照片
+- (void)fetchLastImagesFromLibrary{
+    
+    if (!_imageAssetsArr) {
+        _imageAssetsArr = [NSMutableArray array];
+    }
+    __weak typeof(self) weakSelf = self;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"------++++++++---");
+        //执行遍历
+        [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {//遍历获取相册的组的block回调
+            if (group) {
+                //获取相簿的组
+                NSString *groupStr = [NSString stringWithFormat:@"%@",group];
+                NSString *g1 = [groupStr substringFromIndex:16] ;
+                NSArray *arrTmp = [NSArray new];
+                arrTmp = [g1 componentsSeparatedByString:@","];
+                NSString *groupNameStr = [[[arrTmp objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1];
+                
+                NSLog(@"IIIII____%lu",group.numberOfAssets);
+                
+                if ([groupNameStr isEqualToString:@"Camera Roll"] || [groupNameStr isEqualToString:@"相机胶卷"]) {  //只获取camera roll的照片
+                    //执行遍历，用对应的block遍历相册资源asset
+                    [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) { //遍历获取对应组的照片asset
+                        
+                        if (result) {
+                            NSLog(@"index++++%lu",index);
+                            if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto]) { //如果资源是照片的话
+                                //
+                                SLCollectionModel *model = [[SLCollectionModel alloc]init];
+                                
+                                model.asset = result;
+                                model.isSelected = NO;
+                                
+                                [weakSelf.imageAssetsArr addObject:model];
+                            }
+                        }else{ //当照片加载完成的时候，最后的一次遍历group=nil
+                            NSLog(@"index----%lu",index);
+                            _lastImageModel = [weakSelf.imageAssetsArr lastObject];
+
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                //将上一步保存的的照片的对应的model存到数组中
+                                if (_lastImageModel) {
+                                    _lastImageModel.isSelected = YES;
+                                    [_addPicArr addObject:_lastImageModel];
+                                }
+                                
+                                [_collectionView reloadData];
+                                
+                            });
+                        }
+                    }];
+                }
+            }
+        } failureBlock:^(NSError *error) {//访问相册失败的block回调
+            
+            NSLog(@"相册访问失败 =%@", [error localizedDescription]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"访问相册失败，请检查对本APP的相册访问权限" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                
+                [alertView show];
+            });
+            
+        }];
+    });
+}
+
+
+#pragma mark -相册资源库
+-(ALAssetsLibrary *)assetsLibrary{
+    
+    if (_assetsLibrary == nil) {
+        _assetsLibrary = [AddImageView defaultAssetsLibrary];
+    }
+    return _assetsLibrary;
+}
+
+#pragma mark -ALAssetsLibrary 相薄单例
++ (ALAssetsLibrary *)defaultAssetsLibrary {
+    static dispatch_once_t pred = 0;
+    static ALAssetsLibrary *library = nil;
+    dispatch_once(&pred, ^{
+        library = [[ALAssetsLibrary alloc] init];
+    });
+    return library;
+}
 
 @end
