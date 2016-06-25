@@ -207,8 +207,7 @@
         if ([mediaType isEqualToString:@"public.image"]){  //存储由照相机获取的图片
             
             UIImage *newImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-//            NSLog(@"++++++)))((******%@",info);
-            //将原照片保存到相册
+            //将原照片保存到相册，要确保照片保存完之后，在去最后一张图片，不然读到只可能是倒数第二张
             [self saveImage:newImage];
         }
     }
@@ -228,22 +227,15 @@
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 }
 
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    // Was there an error?
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+
     if (error != NULL)
     {
-        // Show error message...
         NSLog(@"+++相册保存失败++");
-    }
-    else  // No errors
-    {
-        // Show message image successfully save
-       
+    }else{
         
         //获取刚刚照的照片对应的model
         [self fetchLastImagesFromLibrary];
-
     }
 }
 
@@ -268,7 +260,7 @@
                 arrTmp = [g1 componentsSeparatedByString:@","];
                 NSString *groupNameStr = [[[arrTmp objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1];
                 
-                NSLog(@"IIIII____%lu",group.numberOfAssets);
+                //NSLog(@"IIIII____%lu",group.numberOfAssets);
                 
                 if ([groupNameStr isEqualToString:@"Camera Roll"] || [groupNameStr isEqualToString:@"相机胶卷"]) {  //只获取camera roll的照片
                     //执行遍历，用对应的block遍历相册资源asset
