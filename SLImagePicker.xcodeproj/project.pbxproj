@@ -85,7 +85,6 @@
 		71CD9C651CD89C5C005B8A1E /* SLImagePickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SLImagePickerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		71CD9C691CD89C5C005B8A1E /* SLImagePickerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLImagePickerUITests.m; sourceTree = "<group>"; };
 		71CD9C6B1CD89C5C005B8A1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		71CD9C781CD9A4FE005B8A1E /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		71CD9C7A1CD9D488005B8A1E /* SLMultiSelectImagesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMultiSelectImagesVC.h; sourceTree = "<group>"; };
 		71CD9C7B1CD9D488005B8A1E /* SLMultiSelectImagesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMultiSelectImagesVC.m; sourceTree = "<group>"; };
 		71CD9C831CD9EE0F005B8A1E /* btn_circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_circle@2x.png"; sourceTree = "<group>"; };
@@ -148,7 +147,6 @@
 			isa = PBXGroup;
 			children = (
 				71CD9CA61CDB2475005B8A1E /* AssetsLibrary.framework */,
-				71CD9C781CD9A4FE005B8A1E /* Photos.framework */,
 				71CD9C431CD89C5C005B8A1E /* SLImagePicker */,
 				71CD9C5D1CD89C5C005B8A1E /* SLImagePickerTests */,
 				71CD9C681CD89C5C005B8A1E /* SLImagePickerUITests */,
